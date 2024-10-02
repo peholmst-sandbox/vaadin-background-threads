@@ -1,6 +1,6 @@
 package com.example.application.cancellable;
 
-import com.example.application.utils.UIAwareConsumer;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -37,8 +37,8 @@ public class CancellableJobMonoView extends VerticalLayout {
 
     private void startJob() {
         job = trigger.runJobAsMono()
-                .doOnError(new UIAwareConsumer<>(this::onJobFailed))
-                .doOnSuccess(new UIAwareConsumer<>(this::onJobCompleted)) // Also called if the job is cancelled
+                .doOnError(UI.getCurrent().accessLater(this::onJobFailed, null))
+                .doOnSuccess(UI.getCurrent().accessLater(this::onJobCompleted, null)) // Also called if the job is cancelled
                 .subscribe();
         progressBar.setVisible(true);
         cancel.setVisible(true);
