@@ -2,9 +2,11 @@ package com.example.application.cancellable;
 
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class CancellableJobTrigger {
@@ -28,5 +30,13 @@ public class CancellableJobTrigger {
             }
         });
         return future;
+    }
+
+    public Mono<Void> runJobAsMono() {
+        var cancelled = new AtomicBoolean(false);
+        return Mono.fromRunnable(() -> job.startLongRunningJob(cancelled::get))
+                .doOnCancel(() -> cancelled.set(true))
+                .subscribeOn(Schedulers.fromExecutor(taskExecutor))
+                .then();
     }
 }
