@@ -10,6 +10,7 @@ import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.router.Route;
 
 @Route("job-with-result")
+@SuppressWarnings("DuplicatedCode")
 public class JobWithResultView extends VerticalLayout {
 
     private final Button start;
@@ -26,6 +27,7 @@ public class JobWithResultView extends VerticalLayout {
                     .thenAccept(new UIAwareConsumer<>(this::onJobCompleted))
                     .exceptionally(new UIAwareErrorHandler(this::onJobFailed));
         });
+        start.setDisableOnClick(true);
         add(progressBar, start);
     }
 

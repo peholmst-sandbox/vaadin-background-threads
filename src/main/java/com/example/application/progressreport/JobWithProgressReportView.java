@@ -10,6 +10,7 @@ import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.router.Route;
 
 @Route("job-with-progress-report")
+@SuppressWarnings("DuplicatedCode")
 public class JobWithProgressReportView extends VerticalLayout {
 
     private final Button start;
