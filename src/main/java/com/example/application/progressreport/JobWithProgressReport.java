@@ -11,7 +11,7 @@ public class JobWithProgressReport {
     private final Random rnd = new Random();
 
     public String startLongRunningJob(Consumer<Double> updateProgressCallback) {
-        System.out.println("LongRunningJobWithProgressReport running in thread " + Thread.currentThread());
+        System.out.println(getClass().getSimpleName() + " running in thread " + Thread.currentThread());
         StringBuilder sb = new StringBuilder();
         for (int i = 1; i <= 10; ++i) {
             try {
