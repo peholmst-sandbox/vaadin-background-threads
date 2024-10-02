@@ -1,6 +1,6 @@
 package com.example.application.resultonly;
 
-import com.example.application.utils.UIAwareConsumer;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -23,8 +23,8 @@ public class JobWithResultMonoView extends VerticalLayout {
         start = new Button("Start job", event -> {
             progressBar.setVisible(true);
             trigger.runJobAsMono()
-                    .doOnError(new UIAwareConsumer<>(this::onJobFailed))
-                    .subscribe(new UIAwareConsumer<>(this::onJobCompleted));
+                    .doOnError(UI.getCurrent().accessLater(this::onJobFailed, null))
+                    .subscribe(UI.getCurrent().accessLater(this::onJobCompleted, null));
         });
         start.setDisableOnClick(true);
         add(progressBar, start);
