@@ -1,22 +1,21 @@
 package com.example.application.utils;
 
 import com.vaadin.flow.component.UI;
-
-import java.util.function.Consumer;
+import com.vaadin.flow.function.SerializableConsumer;
 
 import static java.util.Objects.requireNonNull;
 
-public final class UIAwareConsumer<T> implements Consumer<T> {
+public final class UIAwareConsumer<T> implements SerializableConsumer<T> {
 
     private final UI ui;
-    private final Consumer<T> delegate;
+    private final SerializableConsumer<T> delegate;
 
-    public UIAwareConsumer(UI ui, Consumer<T> delegate) {
+    public UIAwareConsumer(UI ui, SerializableConsumer<T> delegate) {
         this.ui = requireNonNull(ui);
         this.delegate = requireNonNull(delegate);
     }
 
-    public UIAwareConsumer(Consumer<T> delegate) {
+    public UIAwareConsumer(SerializableConsumer<T> delegate) {
         this(UI.getCurrent(), delegate);
     }
 

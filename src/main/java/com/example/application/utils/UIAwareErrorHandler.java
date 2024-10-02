@@ -1,23 +1,22 @@
 package com.example.application.utils;
 
 import com.vaadin.flow.component.UI;
-
-import java.util.function.Consumer;
-import java.util.function.Function;
+import com.vaadin.flow.function.SerializableConsumer;
+import com.vaadin.flow.function.SerializableFunction;
 
 import static java.util.Objects.requireNonNull;
 
-public final class UIAwareErrorHandler implements Function<Throwable, Void> {
+public final class UIAwareErrorHandler implements SerializableFunction<Throwable, Void> {
 
     private final UI ui;
-    private final Consumer<Throwable> delegate;
+    private final SerializableConsumer<Throwable> delegate;
 
-    public UIAwareErrorHandler(UI ui, Consumer<Throwable> delegate) {
+    public UIAwareErrorHandler(UI ui, SerializableConsumer<Throwable> delegate) {
         this.ui = requireNonNull(ui);
         this.delegate = requireNonNull(delegate);
     }
 
-    public  UIAwareErrorHandler(Consumer<Throwable> delegate) {
+    public UIAwareErrorHandler(SerializableConsumer<Throwable> delegate) {
         this(UI.getCurrent(), delegate);
     }
 
