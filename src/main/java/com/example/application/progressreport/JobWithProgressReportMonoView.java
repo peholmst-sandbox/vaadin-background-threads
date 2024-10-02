@@ -1,6 +1,6 @@
 package com.example.application.progressreport;
 
-import com.example.application.utils.UIAwareConsumer;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -20,9 +20,9 @@ public class JobWithProgressReportMonoView extends VerticalLayout {
         start = new Button("Start job", event -> {
             progressBar.setValue(0);
             var output = trigger.runJobAsMono();
-            output.progress().subscribe(new UIAwareConsumer<>(progressBar::setValue));
-            output.result().doOnError(new UIAwareConsumer<>(this::onJobFailed))
-                    .subscribe(new UIAwareConsumer<>(this::onJobCompleted));
+            output.progress().subscribe(UI.getCurrent().accessLater(progressBar::setValue, null));
+            output.result().doOnError(UI.getCurrent().accessLater(this::onJobFailed, null))
+                    .subscribe(UI.getCurrent().accessLater(this::onJobCompleted, null));
         });
         start.setDisableOnClick(true);
         add(progressBar, start);
